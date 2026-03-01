@@ -1,0 +1,218 @@
+/* src/components/newsletter/NewsletterBanner.css */
+
+.nl-banner {
+  background:rgb(0, 0, 59);
+  padding: 72px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.nl-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 80% 50%, rgba(99,102,241,.18) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.nl-banner__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Copy side ── */
+.nl-banner__eyebrow {
+  display: inline-block;
+  font-size: .8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: #a5b4fc;
+  margin-bottom: 14px;
+}
+
+.nl-banner__title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  margin: 0 0 14px;
+}
+
+.nl-banner__sub {
+  color: #94a3b8;
+  line-height: 1.7;
+  margin: 0 0 24px;
+  font-size: .95rem;
+}
+
+.nl-banner__perks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nl-perk {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  color: #cbd5e1;
+  font-size: .78rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+
+/* ── Form side ── */
+.nl-form {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px;
+  padding: 32px;
+  backdrop-filter: blur(8px);
+}
+
+.nl-form__title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 6px;
+}
+
+.nl-form__sub {
+  font-size: .8rem;
+  color: #64748b;
+  margin: 0 0 20px;
+}
+
+.nl-field {
+  margin-bottom: 16px;
+}
+
+.nl-field label {
+  display: block;
+  font-size: .78rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 7px;
+}
+
+.nl-field input {
+  width: 100%;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px;
+  padding: 11px 14px;
+  color: #fff;
+  font-size: .9rem;
+  outline: none;
+  transition: border-color .2s;
+  box-sizing: border-box;
+}
+
+.nl-field input::placeholder { color: #475569; }
+
+.nl-field input:focus {
+  border-color: orangered;
+  background: rgba(99,102,241,.08);
+}
+
+.nl-error {
+  font-size: .8rem;
+  color: #f87171;
+  margin: -8px 0 12px;
+}
+
+.nl-btn {
+  width: 100%;
+  background: orangered;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 13px;
+  font-size: .95rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background .2s, transform .15s;
+}
+
+.nl-btn:hover:not(:disabled) {
+  background: rgb(219, 70, 16);
+  transform: translateY(-1px);
+}
+
+.nl-btn:disabled { opacity: .6; cursor: not-allowed; }
+
+.nl-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: nl-spin .7s linear infinite;
+  display: inline-block;
+}
+
+@keyframes nl-spin { to { transform: rotate(360deg); } }
+
+.nl-disclaimer {
+  font-size: .72rem;
+  color: #475569;
+  text-align: center;
+  margin: 10px 0 0;
+  line-height: 1.5;
+}
+
+/* ── Success state ── */
+.nl-success {
+  text-align: center;
+  padding: 32px 24px;
+}
+
+.nl-success__icon {
+  width: 56px;
+  height: 56px;
+  background: rgba(34,197,94,.15);
+  color: #22c55e;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.nl-success__icon svg { width: 26px; height: 26px; }
+
+.nl-success h3 {
+  color: #fff;
+  font-size: 1.2rem;
+  margin: 0 0 8px;
+}
+
+.nl-success p {
+  color: #94a3b8;
+  font-size: .875rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .nl-banner__inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .nl-banner__title { font-size: 1.5rem; }
+}

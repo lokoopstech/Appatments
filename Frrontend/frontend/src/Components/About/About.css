@@ -1,0 +1,619 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ─── Brand Tokens ─────────────────────────────────────── */
+:root {
+  --au-orange:    #E8451A;
+  --au-orange-lt: #f07050;
+  --au-navy:      #1a1a4e;
+  --au-navy-lt:   #2a2a6e;
+  --au-blue:      #1a3fcc;
+  --au-white:     #faf8f4;
+  --au-off:       #f4f2ee;
+  --au-border:    #e2ddd6;
+  --au-text:      #2c2c2c;
+  --au-muted:     #7a7670;
+  --au-shadow:    0 4px 24px rgba(26,26,78,0.09);
+  --au-shadow-lg: 0 12px 48px rgba(26,26,78,0.15);
+}
+
+/* ─── Page ─────────────────────────────────────────────── */
+.au-page {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--au-off);
+  color: var(--au-text);
+  overflow-x: hidden;
+}
+
+/* ─── Scroll Reveal ────────────────────────────────────── */
+.au-reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+.au-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Shared Typography ────────────────────────────────── */
+.au-eyebrow,
+.au-section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--au-orange);
+  margin-bottom: 0.75rem;
+}
+
+.au-section-label--light { color: rgba(250,248,244,0.6); }
+
+.au-section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--au-navy);
+  line-height: 1.1;
+  margin: 0 0 1.2rem;
+}
+
+.au-highlight {
+  color: var(--au-orange);
+  font-style: italic;
+}
+
+/* ─── Banner ───────────────────────────────────────────── */
+.au-banner {
+  position: relative;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--au-navy);
+}
+
+.au-banner__bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 70%, rgba(232,69,26,0.22) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 20%, rgba(26,63,204,0.20) 0%, transparent 55%),
+    linear-gradient(135deg, #0d0d30 0%, var(--au-navy) 60%, #1a1a4e 100%);
+}
+
+.au-banner__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10,8,30,0.25);
+}
+
+/* Decorative shapes */
+.au-banner__shapes { position: absolute; inset: 0; pointer-events: none; }
+
+.au-shape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.06;
+  background: var(--au-white);
+}
+.au-shape--1 { width: 500px; height: 500px; right: -120px; bottom: -180px; }
+.au-shape--2 { width: 200px; height: 200px; right: 180px; top: -60px; }
+.au-shape--3 { width: 80px;  height: 80px;  left: 40%;  bottom: 30px; background: var(--au-orange); opacity: 0.15; }
+
+.au-banner__content {
+  position: relative;
+  z-index: 2;
+  padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 7vw, 5rem);
+  max-width: 720px;
+  animation: auFadeUp 0.8s ease both;
+}
+
+@keyframes auFadeUp {
+  from { opacity:0; transform:translateY(28px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.au-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--au-orange); display: inline-block;
+  animation: auPulse 2s infinite;
+}
+
+@keyframes auPulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%     { opacity:0.4; transform:scale(1.5); }
+}
+
+.au-banner__title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 700;
+  color: var(--au-white);
+  line-height: 1.08;
+  margin: 0 0 1.2rem;
+  letter-spacing: -0.01em;
+}
+
+.au-banner__title em {
+  color: var(--au-orange);
+  font-style: italic;
+}
+
+.au-banner__sub {
+  font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(250,248,244,0.72);
+  max-width: 520px;
+  margin: 0 0 1.8rem;
+}
+
+/* Breadcrumb */
+.au-breadcrumb {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.8rem;
+}
+.au-breadcrumb__link {
+  color: rgba(250,248,244,0.55); text-decoration: none;
+  transition: color 0.2s;
+}
+.au-breadcrumb__link:hover { color: var(--au-orange); }
+.au-breadcrumb__sep   { color: rgba(250,248,244,0.25); }
+.au-breadcrumb__current { color: var(--au-orange); font-weight: 500; }
+
+/* ─── Story Section ────────────────────────────────────── */
+.au-story {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+  padding: clamp(4rem, 8vw, 6rem) clamp(1.5rem, 7vw, 5rem);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Visual stack */
+.au-story__visual { position: relative; }
+
+.au-story__img-stack { position: relative; height: 460px; }
+
+.au-story__img {
+  position: absolute;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.au-story__img--back {
+  width: 80%;
+  height: 360px;
+  top: 40px;
+  right: 0;
+  background: linear-gradient(135deg, var(--au-navy) 0%, var(--au-navy-lt) 100%);
+  opacity: 0.18;
+}
+
+.au-story__img--front {
+  width: 85%;
+  height: 380px;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(145deg, var(--au-navy) 0%, #0d0d30 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 1.5rem;
+}
+
+/* Floating badge */
+.au-story__badge {
+  background: var(--au-orange);
+  border-radius: 10px;
+  padding: 1rem 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  box-shadow: 0 8px 28px rgba(232,69,26,0.4);
+  animation: auFloat 3s ease-in-out infinite;
+}
+
+@keyframes auFloat {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-8px); }
+}
+
+.au-story__badge-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+
+.au-story__badge-txt {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.88);
+  line-height: 1.35;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Orange accent line */
+.au-story__accent {
+  position: absolute;
+  top: 20px;
+  right: -20px;
+  width: 4px;
+  height: 60%;
+  background: linear-gradient(to bottom, var(--au-orange), transparent);
+  border-radius: 2px;
+}
+
+/* Story text */
+.au-story__body {
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: var(--au-muted);
+  margin: 0 0 1.2rem;
+}
+
+.au-story__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.6rem;
+}
+
+.au-pill {
+  background: var(--au-white);
+  border: 1.5px solid var(--au-border);
+  border-radius: 100px;
+  padding: 0.45rem 1rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--au-navy);
+  transition: all 0.2s;
+}
+
+.au-pill:hover {
+  border-color: var(--au-orange);
+  color: var(--au-orange);
+  background: rgba(232,69,26,0.04);
+}
+
+/* ─── Stats Bar ────────────────────────────────────────── */
+.au-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: var(--au-navy);
+  padding: 0;
+}
+
+.au-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 2.5rem 1.5rem;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+
+.au-stat:last-child { border-right: none; }
+
+.au-stat::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 0; height: 3px;
+  background: var(--au-orange);
+  transition: width 0.4s ease;
+}
+
+.au-stat:hover { background: rgba(255,255,255,0.04); }
+.au-stat:hover::before { width: 60%; }
+
+.au-stat__value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--au-white);
+  line-height: 1;
+}
+
+.au-stat__label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(250,248,244,0.5);
+}
+
+/* ─── Values ───────────────────────────────────────────── */
+.au-values {
+  padding: clamp(4rem, 8vw, 6rem) clamp(1.5rem, 7vw, 5rem);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.au-values__header {
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto 3rem;
+}
+
+.au-values__sub {
+  font-size: 0.92rem;
+  color: var(--au-muted);
+  line-height: 1.7;
+}
+
+.au-values__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.4rem;
+}
+
+.au-value-card {
+  background: var(--au-white);
+  border-radius: 14px;
+  padding: 2rem 1.6rem;
+  border: 1.5px solid var(--au-border);
+  box-shadow: var(--au-shadow);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.au-value-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--au-orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.au-value-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--au-shadow-lg);
+  border-color: transparent;
+}
+
+.au-value-card:hover::after { transform: scaleX(1); }
+
+.au-value-card__icon {
+  width: 48px; height: 48px;
+  background: rgba(232,69,26,0.08);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.2rem;
+  color: var(--au-orange);
+  transition: background 0.25s;
+}
+
+.au-value-card__icon svg { width: 24px; height: 24px; }
+.au-value-card:hover .au-value-card__icon { background: var(--au-orange); color: #fff; }
+
+.au-value-card__title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--au-navy);
+  margin: 0 0 0.7rem;
+}
+
+.au-value-card__desc {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--au-muted);
+  margin: 0;
+}
+
+/* ─── Team ─────────────────────────────────────────────── */
+.au-team {
+  background: var(--au-white);
+  padding: clamp(4rem, 8vw, 6rem) clamp(1.5rem, 7vw, 5rem);
+}
+
+.au-team__header {
+  text-align: center;
+  max-width: 480px;
+  margin: 0 auto 3rem;
+}
+
+.au-team__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.au-team-card {
+  background: var(--au-off);
+  border-radius: 14px;
+  padding: 2rem 1.4rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.8rem;
+  border: 1.5px solid var(--au-border);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.au-team-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--au-shadow-lg);
+}
+
+.au-team-card__avatar {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+.au-team-card__info {}
+
+.au-team-card__name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--au-navy);
+  margin: 0 0 0.25rem;
+}
+
+.au-team-card__role {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--au-muted);
+  margin: 0;
+}
+
+.au-team-card__bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: left;
+}
+
+.au-team-card:hover .au-team-card__bar { transform: scaleX(1); }
+
+/* ─── CTA Section ──────────────────────────────────────── */
+.au-cta {
+  padding: clamp(4rem, 8vw, 6rem) clamp(1.5rem, 7vw, 5rem);
+}
+
+.au-cta__inner {
+  background: linear-gradient(135deg, var(--au-navy) 0%, #0d0d30 55%, var(--au-navy-lt) 100%);
+  border-radius: 20px;
+  padding: clamp(3rem, 6vw, 5rem);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.au-cta__shapes { position: absolute; inset: 0; pointer-events: none; }
+.au-cta__shape {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.au-cta__shape--1 { width: 400px; height: 400px; right: -100px; bottom: -150px; }
+.au-cta__shape--2 { width: 180px; height: 180px; left: 5%;  top: -60px; background: rgba(232,69,26,0.08); }
+
+.au-cta__title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 700;
+  color: var(--au-white);
+  line-height: 1.1;
+  margin: 0 0 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.au-cta__sub {
+  font-size: 0.95rem;
+  color: rgba(250,248,244,0.68);
+  line-height: 1.75;
+  max-width: 480px;
+  margin: 0 auto 2.2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.au-cta__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Buttons ──────────────────────────────────────────── */
+.au-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.9rem 2.2rem;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+}
+
+.au-btn--primary {
+  background: var(--au-orange);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(232,69,26,0.4);
+}
+
+.au-btn--primary:hover {
+  background: var(--au-orange-lt);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(232,69,26,0.5);
+}
+
+.au-btn--ghost {
+  background: transparent;
+  color: var(--au-white);
+  border: 1.5px solid rgba(250,248,244,0.35);
+}
+
+.au-btn--ghost:hover {
+  border-color: var(--au-white);
+  background: rgba(250,248,244,0.08);
+  transform: translateY(-2px);
+}
+
+/* ─── Responsive ───────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .au-values__grid { grid-template-columns: repeat(2, 1fr); }
+  .au-team__grid   { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 860px) {
+  .au-story {
+    grid-template-columns: 1fr;
+  }
+  .au-story__visual { display: none; }
+  .au-stats { grid-template-columns: repeat(2, 1fr); }
+  .au-stat  { border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .au-stat:nth-child(2n) { border-right: none; }
+}
+
+@media (max-width: 600px) {
+  .au-banner__title { font-size: 2.4rem; }
+  .au-values__grid  { grid-template-columns: 1fr; }
+  .au-team__grid    { grid-template-columns: 1fr; }
+  .au-stats         { grid-template-columns: repeat(2, 1fr); }
+  .au-cta__inner    { padding: 2.5rem 1.5rem; }
+  .au-cta__actions  { flex-direction: column; align-items: stretch; }
+  .au-btn           { text-align: center; justify-content: center; }
+}

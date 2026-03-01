@@ -1,0 +1,433 @@
+/*
+ * HeroSection.css — Performance-Optimised
+ *
+ * KEY CHANGES vs original:
+ *  1. Google Fonts @import REMOVED — load via <link> tags in index.html instead
+ *     (see comment block at bottom of this file for the correct <head> snippet)
+ *  2. backdrop-filter removed from nav arrows — GPU-expensive, replaced with solid alpha BG
+ *  3. will-change added to animated elements so the browser composites them on the GPU
+ *  4. transform3d used on slides to force GPU layer promotion
+ *  5. contain: strict on slides-wrapper to limit layout/paint scope
+ */
+
+/* ─── Root & Reset ─────────────────────────────────────── */
+:root {
+  --brand-orange: #E8451A;
+  --brand-orange-light: #f07050;
+  --brand-navy: #1a1a4e;
+  --brand-red: #cc1818;
+  --brand-blue: #1a3fcc;
+  --brand-blue-hover: #2f55e8;
+
+  --gold: var(--brand-orange);
+  --gold-light: var(--brand-orange-light);
+  --white: #faf8f4;
+  --dark: var(--brand-navy);
+  --transition-slide: 1s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* ─── Main Container ───────────────────────────────────── */
+.hero-section-main-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--dark);
+  /* contain layout so browser knows nothing outside can be affected */
+  contain: layout;
+}
+
+/* ─── Slides ───────────────────────────────────────────── */
+.slides-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  /* Limit repaint scope to this element only */
+  contain: strict;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  /*
+   * Use translate3d(0,0,0) instead of scale() as the idle state so the
+   * browser keeps the layer on the GPU compositor without triggering layout.
+   */
+  transform: translate3d(0, 0, 0) scale(1.08);
+  transition: opacity var(--transition-slide), transform 6s ease;
+  pointer-events: none;
+  /* Promote each slide to its own composited layer */
+  will-change: opacity, transform;
+}
+
+.slide--active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  pointer-events: auto;
+}
+
+.slide--prev {
+  opacity: 0;
+  transform: translate3d(0, 0, 0) scale(0.96);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.slide__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  /* Avoid subpixel layout recalc on image decode */
+  will-change: auto;
+}
+
+.slide__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(26, 26, 78, 0.75) 0%,
+    rgba(26, 26, 78, 0.12) 55%,
+    rgba(26, 26, 78, 0.5) 100%
+  );
+  /* Overlay is static — no will-change needed */
+}
+
+/* ─── Hero Content ─────────────────────────────────────── */
+.hero-content {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 7vw;
+  max-width: 760px;
+}
+
+/* Badge */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--brand-orange-light);
+  margin-bottom: 1.5rem;
+  animation: fadeSlideUp 0.6s ease both;
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand-orange);
+  animation: pulse 2s infinite;
+  /* Badge dot is tiny — isolate its repaint */
+  will-change: opacity, transform;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(1.4); }
+}
+
+/* Tagline */
+.hero-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.4rem, 5.5vw, 4.8rem);
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--white);
+  margin: 0 0 1.4rem 0;
+  letter-spacing: -0.01em;
+}
+
+.word-reveal {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: wordReveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: opacity, transform;
+}
+
+@keyframes wordReveal {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Subtagline */
+.hero-subtagline {
+  font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(250, 248, 244, 0.78);
+  margin: 0 0 2.6rem 0;
+  max-width: 500px;
+  animation: fadeSlideUp 0.7s 0.45s ease both;
+}
+
+/* Actions */
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  animation: fadeSlideUp 0.7s 0.6s ease both;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.85rem 2rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  border: none;
+  /* Remove list-item styling if still using <li> anywhere */
+  list-style: none;
+}
+
+.btn--primary {
+  background: var(--brand-orange);
+  color: var(--white);
+}
+
+.btn--primary:hover {
+  background: var(--brand-orange-light);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(232, 69, 26, 0.4);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--white);
+  border: 1px solid rgba(250, 248, 244, 0.5);
+}
+
+.btn--ghost:hover {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(26, 63, 204, 0.35);
+}
+
+/* ─── Nav Arrows ───────────────────────────────────────── */
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 52px;
+  height: 52px;
+  /*
+   * PERFORMANCE FIX: backdrop-filter: blur() was here before.
+   * It forces the browser to create an expensive stacking context +
+   * repaint surrounding content on every frame.
+   * Replaced with a solid semi-transparent background — same visual feel,
+   * zero GPU cost.
+   */
+  background: rgba(10, 8, 5, 0.55);
+  border: 1px solid rgba(250, 248, 244, 0.2);
+  border-radius: 50%;
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-arrow:hover {
+  background: var(--brand-orange);
+  border-color: var(--brand-orange);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.nav-arrow svg {
+  width: 20px;
+  height: 20px;
+}
+
+.nav-arrow--prev { left: 2.5vw; }
+.nav-arrow--next { right: 2.5vw; }
+
+/* ─── Dot Indicators ───────────────────────────────────── */
+.hero-dots {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(250, 248, 244, 0.35);
+  border: none;
+  cursor: pointer;
+  transition: background 0.4s ease, transform 0.4s ease;
+  padding: 0;
+}
+
+.dot--active {
+  background: var(--brand-orange);
+  transform: scale(1.5);
+}
+
+.dot:hover:not(.dot--active) {
+  background: rgba(250, 248, 244, 0.65);
+}
+
+/* ─── Slide Counter ────────────────────────────────────── */
+.slide-counter {
+  position: absolute;
+  bottom: 2.4rem;
+  right: 5vw;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.counter-current {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--brand-orange);
+  line-height: 1;
+}
+
+.counter-divider {
+  width: 28px;
+  height: 1px;
+  background: rgba(250, 248, 244, 0.35);
+}
+
+.counter-total {
+  font-size: 1rem;
+  color: rgba(250, 248, 244, 0.45);
+  line-height: 1;
+}
+
+/* ─── Progress Bar ─────────────────────────────────────── */
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(250, 248, 244, 0.12);
+  z-index: 20;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--brand-orange), var(--brand-orange-light));
+  width: 0%;
+  animation: progressFill 5s linear forwards;
+  will-change: width;
+}
+
+@keyframes progressFill {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+/* ─── Shared Fade Up ───────────────────────────────────── */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Responsive ───────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero-content {
+    padding: 0 6vw;
+    max-width: 100%;
+    justify-content: flex-end;
+    padding-bottom: 8rem;
+  }
+
+  .hero-tagline {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .hero-subtagline {
+    font-size: 0.88rem;
+  }
+
+  .nav-arrow {
+    width: 42px;
+    height: 42px;
+  }
+
+  .nav-arrow svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .slide-counter {
+    display: none;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .btn {
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-arrow--prev { left: 1rem; }
+  .nav-arrow--next { right: 1rem; }
+}
+
+/*
+ * ════════════════════════════════════════════════════════════════
+ *  REQUIRED: Add this to your public/index.html <head> section
+ *  to load fonts non-blocking (replaces the @import above).
+ *  The @import in CSS blocks rendering — these <link> tags do not.
+ * ════════════════════════════════════════════════════════════════
+ *
+ *  <!-- 1. Preconnect to speed up DNS + TLS handshake -->
+ *  <link rel="preconnect" href="https://fonts.googleapis.com">
+ *  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ *
+ *  <!-- 2. Load fonts as print (non-blocking), swap to all when ready -->
+ *  <link
+ *    rel="stylesheet"
+ *    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap"
+ *    media="print"
+ *    onload="this.media='all'"
+ *  >
+ *  <!-- 3. Fallback for JS-disabled browsers -->
+ *  <noscript>
+ *    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap">
+ *  </noscript>
+ *
+ *  <!-- 4. Preload your FIRST hero image for instant LCP -->
+ *  <link rel="preload" as="image" href="/your-first-hero-image.webp" fetchpriority="high">
+ *
+ * ════════════════════════════════════════════════════════════════
+ */
