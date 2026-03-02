@@ -6,7 +6,7 @@ const Apartment = require('../Models/Apartment');
 const Blog = require('../Models/Blog');
 const Subscription = require('../Models/Subscription');
 const Contact = require('../Models/Contact');
-const { protect, adminOnly } = require('../Middleware/Auth');
+const { protect, adminOnly } = require('../MiddleWare/Auth');
 
 // All admin routes require auth + admin role
 router.use(protect, adminOnly);
