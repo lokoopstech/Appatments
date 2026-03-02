@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const router  = express.Router();
 const Contact = require('../Models/Contact');
-const { protect, adminOnly } = require('../Middleware/Auth');
+const { protect, adminOnly } = require('../MiddleWare/Auth');
 const { sendInquiryReply, sendAdminInquiryAlert } = require('../utils/mailer');
 
 
