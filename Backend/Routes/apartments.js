@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Apartment = require('../Models/Apartment');
-const { protect, adminOnly } = require('../Middleware/auth');
+const { protect, adminOnly } = require('../Middleware/Auth');
 
 // GET /api/apartments/featured  (must be before /:id)
 router.get('/featured', async (req, res) => {
