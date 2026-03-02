@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Blog = require('../Models/Blog');
-const { protect, adminOnly } = require('../Middleware/Auth');
+const { protect, adminOnly } = require('../MiddleWare/Auth');
 
 // ─────────────────────────────────────────────
 // GET /api/blogs/category/:category  (before /:slug)
