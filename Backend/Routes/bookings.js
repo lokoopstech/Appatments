@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Booking = require('../Models/Booking');
 const Apartment = require('../Models/Apartment');
-const { protect, adminOnly } = require('../Middleware/Auth');
+const { protect, adminOnly } = require('../MiddleWare/Auth');
 const { sendBookingConfirmation, sendBookingStatusUpdate } = require('../utils/mailer');
 
 // POST /api/bookings/check-availability
