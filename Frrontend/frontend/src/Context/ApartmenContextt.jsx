@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const BookingContext = createContext(null);
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE = import.meta.env.VITE_API_URL || 'https://spacehub-apartments.onrender.com/api';
 
 export const BookingProvider = ({ children }) => {
   // All real apartments from the backend
