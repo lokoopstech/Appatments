@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Gallery.css';
 
 /* ── API ──────────────────────────────────── */
-const API_BASE = import.meta.env.VITE_API_URL || 'https://spacehub-apartments.onrender.com/api';
+const API_BASE = import.meta.env.VITE_API_URL || 'https://backend-spacehub.onrender.com/api';
 
 const fetchGallery = async ({ type = '', page = 1, limit = 50 } = {}) => {
   const params = new URLSearchParams({ page, limit, isPublished: 'true' });
