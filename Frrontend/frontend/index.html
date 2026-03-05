@@ -2,9 +2,64 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SPACEHUB APARTMENTS</title>
+    <title>SpaceHub Apartments | Premium Properties in Nairobi</title>
+    <meta name="description" content="Book professional conference rooms, event spaces, and premium apartments in Nairobi. Spaces that inspire great meetings." />
+
+    <!-- ─── Favicon ─────────────────────────────────────────── -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <!-- ─── DNS Prefetch & Preconnect ───────────────────────── -->
+    <!--  Speeds up Google Fonts TLS handshake before the stylesheet is requested -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- ─── Fonts (non-blocking) ────────────────────────────── -->
+    <!--
+      media="print" trick: browser downloads without blocking render,
+      then onload swaps it to media="all" so it applies immediately.
+      This alone can save 300–600 ms on FCP.
+    -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <!-- Fallback for JS-disabled browsers -->
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap"
+      />
+    </noscript>
+
+    <!-- ─── Hero Image Preload (CRITICAL for LCP) ───────────── -->
+    <!--
+      IMPORTANT: Replace the href below with the actual path to your
+      first hero image. If you're using Vite with imported assets,
+      copy the first hero image into /public/images/ and reference it here.
+      Use .webp format for best compression.
+
+      This single tag can reduce your LCP from 47s → under 3s.
+    -->
+    <link
+      rel="preload"
+      as="image"
+      href="./images/hero-1.webp"
+      fetchpriority="high"
+      type="image/webp"
+    />
+
+    <!-- ─── Theme Color (mobile browser chrome) ─────────────── -->
+    <meta name="theme-color" content="#1a1a4e" />
+
+    <!-- ─── Open Graph (social sharing) ────────────────────── -->
+    <meta property="og:title" content="SpaceHub Apartments | Premium Properties" />
+    <meta property="og:description" content="Book professional conference rooms, event spaces and premium apartments in Nairobi." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://spacehub-apartments.onrender.com" />
+    <meta property="og:image" content="/images/hero-1.webp" />
   </head>
   <body>
     <div id="root"></div>
