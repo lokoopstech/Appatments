@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './Blogs.css';
 
 /* ── API helper ───────────────────────────── */
-const API_BASE = import.meta.env.VITE_API_URL || 'https://spacehub-apartments.onrender.com/api';
+const API_BASE = import.meta.env.VITE_API_URL || 'https://backend-spacehub.onrender.com/api';
 
 const fetchBlogs = async ({ category, search, page = 1, limit = 100 } = {}) => {
   const params = new URLSearchParams({ page, limit, published: 'true' });
