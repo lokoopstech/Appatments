@@ -16,8 +16,9 @@ const allowedOrigins = [
   'http://localhost:4173',  // vite preview
   'http://127.0.0.1:3000',
   'http://127.0.0.1:5173',
-  https://spacehub-apartments.onrender.com/
-  // Add your production domains here
+  'https://spacehub-apartments.onrender.com',
+   'https://spacehub-apartments.onrender.com/api/apartments'
+  // Add yo ur production domains here
   // 'https://yourdomain.com',
   // 'https://admin.yourdomain.com',
 ];

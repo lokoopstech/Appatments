@@ -3,21 +3,6 @@ import { Link } from "react-router-dom";
 import Hero_Images from "../../assets/HeroSection";
 import './HeroSection.css';
 
-
-
-/* ── Skeleton loader ──────────────────────── */
-const SkeletonCard = () => (
-  <div className="bl-card bl-card--skeleton">
-    <div className="bl-card__img-wrap bl-skeleton-img" />
-    <div className="bl-card__body">
-      <div className="bl-skeleton-line bl-skeleton-line--sm" />
-      <div className="bl-skeleton-line" />
-      <div className="bl-skeleton-line bl-skeleton-line--lg" />
-      <div className="bl-skeleton-line bl-skeleton-line--md" />
-    </div>
-  </div>
-);
-
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [prevSlide, setPrevSlide] = useState(null);
@@ -25,7 +10,6 @@ const HeroSection = () => {
   const [loadedSlides, setLoadedSlides] = useState(new Set([0]));
   const intervalRef = useRef(null);
 
-  // ── Stable next-slide reference so the interval never re-creates ──
   const currentSlideRef = useRef(currentSlide);
   const isAnimatingRef = useRef(isAnimating);
   useEffect(() => { currentSlideRef.current = currentSlide; }, [currentSlide]);
@@ -36,10 +20,7 @@ const HeroSection = () => {
     setIsAnimating(true);
     setPrevSlide(currentSlideRef.current);
     setCurrentSlide(index);
-
-    // Pre-load next slide image when navigating
     setLoadedSlides(prev => new Set([...prev, index]));
-
     setTimeout(() => {
       setPrevSlide(null);
       setIsAnimating(false);
@@ -49,7 +30,6 @@ const HeroSection = () => {
   const nextSlide = useCallback(() => {
     const next = (currentSlideRef.current + 1) % Hero_Images.length;
     goToSlide(next);
-    // Preload the slide AFTER next so it's ready
     const afterNext = (next + 1) % Hero_Images.length;
     setLoadedSlides(prev => new Set([...prev, afterNext]));
   }, [goToSlide]);
@@ -59,11 +39,10 @@ const HeroSection = () => {
     goToSlide(prev);
   }, [goToSlide]);
 
-  // ── Single interval that never re-creates on slide change ──
   useEffect(() => {
     intervalRef.current = setInterval(nextSlide, 5000);
     return () => clearInterval(intervalRef.current);
-  }, [nextSlide]); // nextSlide is stable (useCallback with no deps that change)
+  }, [nextSlide]);
 
   const resetInterval = useCallback(() => {
     clearInterval(intervalRef.current);
@@ -72,30 +51,24 @@ const HeroSection = () => {
 
   return (
     <section className="hero-section-main-container" aria-label="Hero slideshow">
-{/*       
-          {loading && (
-            <div className="bl-grid">
-              {[...Array(6)].map((_, i) => <SkeletonCard key={i} />)}
-            </div>
-          )} */}
 
       {/* ── Background slides ── */}
       <div className="slides-wrapper" aria-hidden="true">
         {Hero_Images.map((H, I) => {
-          const shouldRender = loadedSlides.has(I);
+          const shouldRender = loadedSlides.has(I) || I === 0; // ← always render slide 0
           return (
             <div
               key={I}
               className={`slide ${I === currentSlide ? 'slide--active' : ''} ${I === prevSlide ? 'slide--prev' : ''}`}
+              style={I === 0 ? { opacity: I === currentSlide ? 1 : undefined } : undefined}
             >
               {shouldRender && (
                 <img
                   src={H.image}
-                  alt=""                          /* decorative — real alt on h1 */
+                  alt=""
                   className="slide__image"
-                  /* First slide: eager + high priority for LCP */
-                 {(shouldRender || I === 0) && <img ... />}
-                  fetchpriority={I === 0 ? "high" : "low"}
+                  loading={I === 0 ? "eager" : "lazy"}
+                  fetchPriority={I === 0 ? "high" : "low"}
                   decoding={I === 0 ? "sync" : "async"}
                   width="1920"
                   height="1080"
@@ -130,7 +103,6 @@ const HeroSection = () => {
           <Link to="/our-apartments" className="btn btn--primary">
             Explore Properties
           </Link>
-          {/* Fixed: <li> inside <Link> is invalid HTML — use <span> or just style the Link */}
           <Link to="/book-now" className="btn btn--ghost">
             Book Now
           </Link>
